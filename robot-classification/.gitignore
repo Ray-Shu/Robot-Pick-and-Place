@@ -1,0 +1,10 @@
+*.png 
+*.jpg
+*.csv
+a
+yolo11n.pt
+yolo26n.pt
+dataset
+robot-classification/
+
+recordings/

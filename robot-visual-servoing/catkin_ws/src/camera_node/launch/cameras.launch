@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="idxone" default="0"/>
+    <arg name="idxtwo" default="2"/>
+    <arg name="one_is_rs" default="false"/>
+    <arg name="two_is_rs" default="false"/>
+
+    <node pkg="camera_node" name="cam0" type="camera_node.py" output="screen">
+        <param name="cam_idx" value="$(arg idxtwo)"/>
+        <param name="is_rs" value="$(arg two_is_rs)"/>
+        <!-- xyz in meters -->
+        <param name="x" value="0.6"/>
+        <param name="y" value="0.45"/>
+        <param name="z" value="0.15"/>
+
+        <!-- rpy in degrees -->
+        <param name="roll" value="-90"/>
+        <param name="pitch" value="0"/>
+        <param name="yaw" value="-180"/>
+    </node>
+
+    <node pkg="camera_node" name="cam2" type="camera_node.py" output="screen">
+        <param name="cam_idx" value="$(arg idxone)"/> <!-- should be 2 if tripod -->
+        <param name="is_rs" value="$(arg one_is_rs)"/> 
+
+        <!-- xyz in meters -->
+        <param name="x" value="0.9"/>
+        <param name="y" value="0.0"/> <!-- 0.4 -0.4 0.95-->
+        <param name="z" value="0.95"/>
+
+        <!-- rpy in degrees -->
+        <param name="roll" value="-180"/> <!-- -135 -165 -180 --> <!-- 170 -->
+        <param name="pitch" value="0"/>
+        <param name="yaw" value="90"/>
+    </node>
+
+    <!-- 45 deg corner cam: 0.6 0.0 0.8 -135 0 -225-->
+</launch>

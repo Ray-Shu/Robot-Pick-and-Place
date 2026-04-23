@@ -1,0 +1,12 @@
+numpy==1.22.0
+matplotlib
+libtmux
+opencv-python
+conan==1.59
+sympy
+zmq
+torch
+msgpack
+msgpack_numpy
+rosnumpy
+open3d

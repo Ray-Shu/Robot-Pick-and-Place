@@ -1,0 +1,27 @@
+services:
+  robot_visual_servoing:
+    container_name: robot-visual-servoing
+    working_dir: /home/user/robot-visual-servoing
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    network_mode: host
+    tty: true
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    devices:
+      - /dev:/dev 
+    volumes:
+      - ../robot-visual-servoing:/home/user/robot-visual-servoing
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/bus/usb:/dev/bus/usb
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,80 @@
+<launch>
+    <arg name="serial_no_camera1" default="123622270047"/> 			
+    <arg name="serial_no_camera2" default=""/> 			
+    <arg name="camera1"           default="camera1"/>	
+    <arg name="camera2"           default="camera2"/>	
+    <arg name="tf_prefix_camera1" default="$(arg camera1)"/>
+    <arg name="tf_prefix_camera2" default="$(arg camera2)"/>
+    <arg name="reconnect_timeout" default="6.0"/>
+    <arg name="adapt_cameras" default="true"/>  
+    <arg name="publish_tf" default="false"/>
+
+    <group ns="$(arg camera1)">
+      <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+        <arg name="serial_no"             value="$(arg serial_no_camera1)"/>
+        <arg name="tf_prefix"         		value="$(arg tf_prefix_camera1)"/>
+        <arg name="initial_reset"         value="true"/>
+        <arg name="reconnect_timeout"     value="$(arg reconnect_timeout)"/>
+
+        <arg name="align_depth"           value="true"/>
+        <arg name="color_width"           value="640"/>
+        <arg name="color_height"          value="480"/>
+        <arg name="color_fps"             value="15"/>
+        <arg name="depth_width"           value="640"/>
+        <arg name="depth_height"          value="480"/>
+        <arg name="depth_fps"              value="15"/>
+        <arg name="publish_tf"            value="$(arg publish_tf)"/>
+      </include>
+    </group>
+  
+    <group ns="$(arg camera2)">
+      <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+        <arg name="serial_no"             value="$(arg serial_no_camera2)"/>
+        <arg name="tf_prefix"		          value="$(arg tf_prefix_camera2)"/>
+        <arg name="initial_reset"         value="true"/>
+        <arg name="reconnect_timeout"     value="$(arg reconnect_timeout)"/>
+
+        <arg name="align_depth"           value="true"/>
+        <arg name="color_width"           value="640"/>
+        <arg name="color_height"          value="480"/>
+        <arg name="color_fps"             value="15"/>
+        <arg name="depth_width"           value="640"/>
+        <arg name="depth_height"          value="480"/>
+        <arg name="depth_fps"              value="15"/>
+        <arg name="publish_tf"            value="$(arg publish_tf)"/>
+      </include>
+    </group>
+
+    <group if="$(arg adapt_cameras)">    
+      <node pkg="camera_node" name="cam1" type="camera_node.py" output="screen">
+          <param name="cam_idx" value="1"/>
+          <param name="is_rs" value="true"/>
+
+          <!-- xyz in meters -->
+          <param name="x" value="0.6"/>
+          <param name="y" value="0.45"/>
+          <param name="z" value="0.15"/>
+
+          <!-- rpy in degrees -->
+          <param name="roll" value="-90"/>
+          <param name="pitch" value="0"/>
+          <param name="yaw" value="-180"/>
+      </node>
+
+      <node pkg="camera_node" name="cam2" type="camera_node.py" output="screen">
+          <param name="cam_idx" value="2"/> 
+          <param name="is_rs" value="true"/> 
+
+          <!-- xyz in meters -->
+          <param name="x" value="0.1"/>
+          <param name="y" value="-1.2"/>
+          <param name="z" value="0.8"/>
+
+          <!-- rpy in degrees -->
+          <param name="roll" value="-165"/> <!-- -135 -165 -180 -->
+          <param name="pitch" value="0"/>
+          <param name="yaw" value="0"/>
+      </node>
+    </group>
+  
+  </launch>
